@@ -23,7 +23,7 @@ class UserDetails{
 
 			if($count)
 			{
-             //$_SESSION['userid']=$data->user_id; // Storing user session value 
+                         $_SESSION['userid']=$data->user_id; // Storing user session value 
 				return true;
 			}else{
 				return false;
@@ -56,43 +56,23 @@ class UserDetails{
 
 				$stmt = $connect->prepare("INSERT INTO user(name,username,email,password) VALUES(:name,:username,:email,:hash_password)");
 				$stmt->bindParam(":name", $name,PDO::PARAM_STR) ;
-                $hash_password= hash('sha256', $password); //Password encryption
-                $stmt->bindParam(":username", $username,PDO::PARAM_STR) ;
-                $stmt->bindParam(":email", $email,PDO::PARAM_STR) ;
-                $stmt->bindParam(":hash_password", $hash_password,PDO::PARAM_STR) ;
-                $stmt->execute();
-                $uid=$connect->lastInsertId(); // Last inserted row id
-                $_SESSION['uid']=$uid;
-                return $uid;
-            }else{
-            	return false;
-            }
-
-        }catch(PDOException $e){
-        	echo  "Error:" . $e->getMessage();
-        }
+                                 $hash_password= hash('sha256', $password); //Password encryption
+                                $stmt->bindParam(":username", $username,PDO::PARAM_STR) ;
+                                $stmt->bindParam(":email", $email,PDO::PARAM_STR) ;
+                                $stmt->bindParam(":hash_password", $hash_password,PDO::PARAM_STR) ;
+                                $stmt->execute();
+                                $uid=$connect->lastInsertId(); // Last inserted row id
+                                $_SESSION['uid']=$uid;
+                                return $uid;
+                            }else{
+                   	return false;
+                       }
+                  }catch(PDOException $e){
+                	echo  "Error:" . $e->getMessage();
+                }
         $connect = null;
     }
-
-           //End of Registraion Function
-
-
-/* User Details 
-public function userDetails($uid)
-{
-	try{
-		$database = new Database();
-		$db = $database->getDB();
-		$stmt = $db->prepare("SELECT name, email FROM users WHERE uid=:uid"); 
-		$stmt->bindParam("", $uid,PDO::PARAM_INT);
-		$stmt->execute();
-        $data = $stmt->fetch(PDO::FETCH_OBJ); //User data
-        return $data;
-      }catch(PDOException $e) {
-	echo "Error":. $e->getMessage();
-}
-}
-*/
+//End of Registraion Function
 }
 
 ?>
